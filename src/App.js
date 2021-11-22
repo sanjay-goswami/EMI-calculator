@@ -3,7 +3,7 @@ import './App.css';
 import {withStyles} from '@material-ui/core/styles';
 import slider from '@material-ui/core/Slider';
 import Typography from '@material-ui/core/Typography';
-import { Table,TableCell, TableRow } from '@material-ui/core';
+import { Table,TableCell, TableRow ,TableHead,TableBody,} from '@material-ui/core';
 import {Pie} from 'react-chartjs-2';
 import ntable from './TableDetails';
 import AmortizationData from './AmortizationData';
@@ -16,7 +16,7 @@ const Pslider = withStyles({
   rail:{height:10,borderRadius:4},
 })(slider);
 function App() {
-  const [pAmount,setpAmount] = useState(100000);
+  var [pAmount,setpAmount] = useState(100000);
   const [interest,setinterest] = useState(27);
   const [duration,setDuration] = useState(12);
   const maxValue = 20000000;
@@ -36,16 +36,16 @@ function App() {
           <h2 className="calHeading" ><u>EMI Caculator</u></h2>
           <div className='slidermain'>
           <div className='slider'>
-            <Typography gutterBottom><strong> Loan Amount <input type="text" value={pAmount} read-only='True'/> &#8377; </strong></Typography>
+            <Typography gutterBottom><strong> Loan Amount <input type="text" value={pAmount} onChange={(event,value)=>{setpAmount(event.target.value)}}/> &#8377; </strong></Typography>
             <Pslider value={pAmount} onChange={(event,vAmt)=>{setpAmount(vAmt)}} defaultValue={pAmount} max={maxValue}/>
           </div>
           
           <div className='slider'>
-            <Typography gutterBottom><strong> Interest Rate <input type="text" value={interest} read-only='True'/>%</strong></Typography>
+            <Typography gutterBottom><strong> Interest Rate <input type="text" value={interest} onChange={(event)=>{setinterest(event.target.value)}}/>%</strong></Typography>
             <Pslider value={interest} onChange={(event,vInt)=>{setinterest(vInt)}} max={intMax} defaultValue={interest}/>
           </div>
           <div className='slider'>
-            <Typography gutterBottom><strong> Tenure <input type="text" value={duration} read-only='True'/>Months</strong></Typography>
+            <Typography gutterBottom><strong> Tenure <input type="text" value={duration} onChange={(event)=>{setDuration(event.target.value)}}/>Months</strong></Typography>
             <Pslider value={duration} onChange={(event,vDur)=>{setDuration(vDur)}} max={maxDuration} defaultValue={duration}/>
           </div>
           </div>
@@ -79,16 +79,20 @@ function App() {
           </div>
           </div>
           <div className='table'>
-            <Table>
+            <Table border="1px">
+              <TableHead>
               <TableRow>
-                <TableCell><strong>Month</strong></TableCell>
-                <TableCell><strong>Principal(A)</strong></TableCell>
-                <TableCell><strong>Interest</strong></TableCell>
-                <TableCell><strong>Total(A+B)</strong></TableCell>
-                <TableCell><strong>Balance</strong></TableCell>
-                <TableCell><strong>Loan Paid Till Date</strong></TableCell>
-              </TableRow>                  
+                <TableCell>Month</TableCell>
+                <TableCell>Principal(A)</TableCell>
+                <TableCell>Interest</TableCell>
+                <TableCell>Total(A+B)</TableCell>
+                <TableCell>Balance</TableCell>
+                <TableCell>Loan Paid Till Date</TableCell>
+              </TableRow>
+              </TableHead>  
+              <TableBody>                
               {arr.map(ntable)}
+              </TableBody>
             </Table>
           </div>
       </div>
